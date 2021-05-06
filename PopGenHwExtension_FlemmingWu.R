@@ -20,12 +20,39 @@ nextGeneration = function(inputpop){ #function to return the next generation bas
   return(nextgen)
 }
 
+fixation = function(newinput){ #iterates nextGeneration until fixation
+  mutationfreq = c()
+  while(sum(newinput) != 0 & sum(newinput) != length(newinput)){
+    x = nextGeneration(newinput)
+    newinput = x   
+    mutationfreq = c(mutationfreq, (sun(newinput)/length(newinput))
+  }
+ 
+return(mutationfreq)
+}
+                     
+probOfFixation=function(newinput){  #function to calculate the probability that the mutant allele will fix in 10,000 iterations
+  mutantfixationscore = 0
+  mutantextinctionscore = 0
+  for(i in 1:10000){
+    mutantfrequency = fixation(newinput)
+    if(mutantfrequency[length(mutantfrequency)] == 1){
+      mutantfixationscore = mutantfixationscore + 1
+      }
+    else{
+      mutantextinctionscore = mutantextinctionscore + 1
+      }
+    }
+  return(mutantfixationscore/10000)
+  
+  }
+
 fixSelection = function(newinput){    
   mutationfreq = c(sum(newinput)/1000)    ###initialize vector to store frequency of mutant in population, with the initial mut freq recorded. 
   for(i in 1:100000){
     x = nextGeneration(newinput)
     newinput = x    ###uses temp variable x to allow the output of nextGeneration to become input of next iteration of nextGeneration
-    mutationfreq = c(mutationfreq, (sum(newinput)/1000))     ###adds frequency of mutant to vector; should be down after the sampling process. 
+    mutationfreq = c(mutationfreq, (sum(newinput)/1000))     ###adds frequency of mutant to vector 
     if(sum(x) == 0 | sum(x) > 999){      ###if statement to check for fixation
       return(mutationfreq)
       break
@@ -33,7 +60,9 @@ fixSelection = function(newinput){
   }
 }  
 #fixSelection(newinput)
-###plots selection graph
+
+                     
+### below plots selection graph
 plot(0, type='n',xlab="number of generations", ylab="frequency of mutant allele", ylim=c(0,1),xlim=c(1,500), main="Selection")
 for(i in 1:10000){
   temp = fixSelection(newinput)
