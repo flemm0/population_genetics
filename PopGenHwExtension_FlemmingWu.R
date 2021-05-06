@@ -3,11 +3,11 @@ initialpop = c(1)
 for(i in 1:999){
   initialpop = c(initialpop, 0)
 }
-newinput = initialpop
+newinput = initialpop  #creates initial population of 1,000 with 1 mutant
 
-nextGeneration = function(inputpop){
+nextGeneration = function(inputpop){ #function to return the next generation based on the input population
   biasedChancesVector = numeric(length(inputpop))
-  for(i in 1:length(inputpop)){ ### creating vector containing biased chances
+  for(i in 1:length(inputpop)){ ### creating vector containing biased chances of different selection rates for mutant vs wt
     if(inputpop[i] == 0){
       biasedChancesVector[i] = 0.97
     }
