@@ -1,10 +1,8 @@
 # population_genetics
-Let's say there is a gene in the population that is fixed, meaning that there is only one allele present in the population.  Suddenly there is a new mutation so that there are now two alleles present.  
-Moreover, let's say this new allele is actually beneficial:  an organism with this new mutant allele is slightly more likely to survive and reproduce than an organism with the more common (wild-type) allele.
-In this project I simulate the evolution of the frequencies of these two alleles at this genetic locus to ultimately answer the question:  what is the chance that the new, mutant allele will take over and become fixed in the population?  
-To do this, I set up a population of alleles, assigned them fitnesses, had them reproduce to make a new generation depending on their fitnesses, and iterate until one of two alleles is extinct and the other one is fixed.  Then I repeated this many times to determine what fraction of times the mutant is fixed and what fraction of the time it is the one that goes extinct.
-I designated the wild-type allele by 0 and the mutant allele by 1. This is just a convention to keep them distinct. We will also assume that no more mutation happens.  
+In a hypothetical population, there is a gene amongst all individuals that is fixed, or that it is the only allele present. Suddenly, there is a new mutation that occurs bringing the allele count to two. Having this mutated genome slightly increases the organism's chance of survival.
+In this project, I simulate the evolution of the frequencies of the two alleles within the population and explored the effects of differing levels of fitness for the two alleles.
 
-I plotted what happened to my 10,000 runs of genetic drift and selection to visualize what happens over time.
-At the end, I estimated the number of generations needed for the mutation to go to fixation for a neutral and a selected mutation and varied population sizes and intensity of selection to answer the question: 
-Is there a relationship between fixation, population size, and strength of selection?
+I set up a population of alleles, assigned fitnesses for them, and had each individual reproduce to make a new generation, which would be biased by their respective fitnesses. Furthermore, I ran the simulation until one of the alleles is extinct and other other is fixed, or has become the only allele in the population. I repeated this process many times to determine the fraction of times the mutant allele becomes fixed.
+
+The wild-type allele is desginated by 0 and the mutant by 1. No further mutations are assumed to occur in this simulation. 
+
