@@ -1,34 +1,35 @@
-#########Number 1##############
+###
+#creates initial population of 1,000 with 1 mutant
 initialpop = c(1)
 for(i in 1:999){
   initialpop = c(initialpop, 0)
 }
-newinput = initialpop  #creates initial population of 1,000 with 1 mutant
+newinput = initialpop  #assign name to initial population
 
 nextGeneration = function(inputpop){ #function to return the next generation based on the input population
   biasedChancesVector = numeric(length(inputpop))
   for(i in 1:length(inputpop)){ ### creating vector containing biased chances of different selection rates for mutant vs wt
     if(inputpop[i] == 0){
-      biasedChancesVector[i] = 0.97
+      biasedChancesVector[i] = 0.97 #probability of wild-type reproducing
     }
     else{
-      biasedChancesVector[i] = 1
+      biasedChancesVector[i] = 1 #probability of mutant allele reproducing
     }
   }
   
-  nextgen = sample(inputpop, size = 1000, replace = TRUE, prob = biasedChancesVector)
+  nextgen = sample(inputpop, size = 1000, replace = TRUE, prob = biasedChancesVector) #use sample function to generate the next population
   return(nextgen)
 }
 
 fixation = function(newinput){ #iterates nextGeneration until fixation
   mutationfreq = c()
-  while(sum(newinput) != 0 & sum(newinput) != length(newinput)){
+  while(sum(newinput) != 0 & sum(newinput) != length(newinput)){ #while loop checks for fixation
     x = nextGeneration(newinput)
     newinput = x   
-    mutationfreq = c(mutationfreq, (sun(newinput)/length(newinput))
+    mutationfreq = c(mutationfreq, (sum(newinput)/length(newinput))
   }
  
-return(mutationfreq)
+return(mutationfreq) #returns the frequency of the mutant allele
 }
                      
 probOfFixation=function(newinput){  #function to calculate the probability that the mutant allele will fix in 10,000 iterations
@@ -48,7 +49,7 @@ probOfFixation=function(newinput){  #function to calculate the probability that 
   }
 
 fixSelection = function(newinput){    
-  mutationfreq = c(sum(newinput)/1000)    ###initialize vector to store frequency of mutant in population, with the initial mut freq recorded. 
+  mutationfreq = c(sum(newinput)/1000)    ###initialize vector to store frequency of mutant in population of each generation 
   for(i in 1:100000){
     x = nextGeneration(newinput)
     newinput = x    ###uses temp variable x to allow the output of nextGeneration to become input of next iteration of nextGeneration
@@ -59,17 +60,17 @@ fixSelection = function(newinput){
     }
   }
 }  
-#fixSelection(newinput)
+#fixSelection(newinput) #test
 
                      
-### below plots selection graph
+### below plots the frequency of mutant allele in the population with each generation, simulated 10,000 times
 plot(0, type='n',xlab="number of generations", ylab="frequency of mutant allele", ylim=c(0,1),xlim=c(1,500), main="Selection")
 for(i in 1:10000){
-  temp = fixSelection(newinput)
-  lines(temp)
+  x = fixSelection(newinput)
+  lines(x)
 }
 
-nextGenNoBias = function(newinput){
+nextGenNoBias = function(newinput){ #simulates changes in population if the mutant and wild-type allele had the same fitness
   mutantfreq = c(sum(newinput)/1000)
   for(i in 1:10000){
     x = sample(newinput, size = 1000, replace = TRUE)
@@ -100,12 +101,12 @@ for(i in 1:10000){
 }
 
 
-#########Number 2#############
-popsize = seq(from = 10, to = 100, by = 10)
-selectionstrength = seq(from = 0.005, to = 0.05, by = 0.005)
+###part 2
+popsize = seq(from = 10, to = 100, by = 10) #create vector to store different sized populations
+selectionstrength = seq(from = 0.005, to = 0.05, by = 0.005) #create vector to store different fitnesses of wild-type allele
 
 
-selection = function(popsize, selectionstrength){
+selection = function(popsize, selectionstrength){ #create populations of individuals based on predetermined population sizes
   input = c(1)
   for(i in 1:(popsize-1)){
     input = c(input, 0)
@@ -142,9 +143,8 @@ avgGensToMutantFixation = function(popsize, selectionstrength){
   }
   return(sum(gens)/length(gens))
 }
-### below plots average number of generations to reach fixation against selection strength for each population size in a selected mutation simulation
-
-
+                     
+###below plots average number of generations to reach fixation against selection strength for each population size in a selected mutation simulation
 plot(0, type='n', xlab='avg gens to mutant fixation', ylab='selection strength', ylim = c(0,0.05), xlim=c(1,250), main="Selected Mutation")
 vec = c()
 for(i in popsize){
@@ -159,7 +159,7 @@ for(i in popsize){
 }
 
 
-####below is the plot for no selection bias
+####below plots changes in population for when no selection bias for mutant or wild-type alleles
 neutralVec = c()
 yvals = c()
 for(i in popsize){
